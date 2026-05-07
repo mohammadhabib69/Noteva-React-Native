@@ -1,33 +1,50 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { COLORS, FONTS } from '../../src/constants/theme';
+import { Home, Settings } from 'lucide-react-native';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
+        tabBarActiveTintColor: COLORS.red,
+        tabBarInactiveTintColor: COLORS.gray5,
+        tabBarStyle: {
+          backgroundColor: COLORS.black,
+          borderTopWidth: 2,
+          borderTopColor: COLORS.border,
+          height: 60,
+          paddingBottom: 8,
+        },
+        tabBarLabelStyle: {
+          fontFamily: FONTS.mono,
+          fontSize: 10,
+          textTransform: 'uppercase',
+          letterSpacing: 1,
+        },
+        headerStyle: {
+          backgroundColor: COLORS.black,
+          borderBottomWidth: 2,
+          borderBottomColor: COLORS.border,
+        },
+        headerTitleStyle: {
+          fontFamily: FONTS.head,
+          fontWeight: '800',
+          color: COLORS.white,
+        },
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'NOTES',
+          tabBarIcon: ({ color }) => <Home size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="settings"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'SETTINGS',
+          tabBarIcon: ({ color }) => <Settings size={24} color={color} />,
         }}
       />
     </Tabs>

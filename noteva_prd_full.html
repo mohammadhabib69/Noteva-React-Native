@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    --red: #FF5252;
+    --red-dim: #cc3d3d;
+    --black: #0a0a0a;
+    --white: #f5f5f5;
+    --gray1: #141414;
+    --gray2: #1e1e1e;
+    --gray3: #2a2a2a;
+    --gray4: #444;
+    --gray5: #888;
+    --border: #2a2a2a;
+    --font-head: 'Syne', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-head);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* COVER */
+  .cover {
+    background: var(--black);
+    border-bottom: 2px solid var(--red);
+    padding: 60px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content:'';
+    position:absolute;
+    top:-40px; right:-40px;
+    width:320px; height:320px;
+    border: 2px solid var(--border);
+    transform: rotate(12deg);
+  }
+  .cover::after {
+    content:'';
+    position:absolute;
+    bottom:-60px; left:80px;
+    width:180px; height:180px;
+    border: 1px solid var(--border);
+    transform: rotate(-8deg);
+  }
+  .cover-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--red);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .cover-logo {
+    font-family: var(--font-head);
+    font-size: 80px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -4px;
+    line-height: 1;
+    position: relative;
+    z-index:1;
+  }
+  .cover-logo span { color: var(--red); }
+  .cover-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray5);
+    letter-spacing: 2px;
+    margin-top: 12px;
+    text-transform: uppercase;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+  .cover-meta-item {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray5);
+    letter-spacing: 1px;
+  }
+  .cover-meta-item strong {
+    display: block;
+    color: var(--white);
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+
+  /* APP ICON CONCEPT */
+  .icon-section {
+    padding: 40px 48px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .icon-wrap { display:flex; gap:20px; align-items:center; }
+  .app-icon {
+    width: 96px; height: 96px;
+    background: var(--black);
+    border: 2px solid var(--red);
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .app-icon svg { width: 54px; height: 54px; }
+  .app-icon-sm {
+    width: 60px; height: 60px;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .icon-text-block h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .icon-text-block p {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray5);
+    line-height: 1.8;
+    max-width: 320px;
+  }
+
+  /* SECTION LAYOUT */
+  .section {
+    padding: 40px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 3px 8px;
+    letter-spacing: 2px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* PALETTE */
+  .palette-row { display:flex; gap:2px; margin-bottom:8px; flex-wrap:wrap; }
+  .swatch {
+    height: 36px;
+    flex: 1;
+    min-width: 40px;
+    border-radius: 2px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 4px;
+    padding-left: 6px;
+  }
+  .swatch span {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+  }
+  .palette-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--gray5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  /* TYPOGRAPHY SHOWCASE */
+  .type-block {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 20px 16px;
+    margin-bottom: 12px;
+  }
+  .type-sample { color: var(--white); }
+  .type-h1 { font-size: 32px; font-weight: 800; letter-spacing:-1px; }
+  .type-h2 { font-size: 22px; font-weight: 700; letter-spacing:-0.5px; }
+  .type-mono { font-family: var(--font-mono); font-size: 12px; color: var(--gray5); }
+  .type-meta { font-family: var(--font-mono); font-size: 9px; color: var(--gray4); margin-top: 8px; letter-spacing:1px; }
+
+  /* FEATURE GRID */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 2px;
+  }
+  .feature-card {
+    background: var(--gray1);
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    position: relative;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--red);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-icon {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .feature-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .feature-desc {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray5);
+    line-height: 1.8;
+  }
+  .feature-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 2px 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* SCREENS MOCKUP */
+  .screens-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .screen-frame {
+    background: var(--gray1);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    width: 160px;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .screen-notch {
+    background: var(--black);
+    height: 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .screen-notch-pill {
+    width: 50px; height: 8px;
+    background: var(--gray3);
+    border-radius: 4px;
+  }
+  .screen-content { padding: 12px 10px; }
+  .screen-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--red);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .screen-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .mock-bar {
+    height: 5px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 5px;
+  }
+  .mock-bar.red { background: var(--red); }
+  .mock-bar.w60 { width: 60%; }
+  .mock-bar.w40 { width: 40%; }
+  .mock-bar.w80 { width: 80%; }
+  .mock-bar.w30 { width: 30%; }
+  .mock-card {
+    background: var(--gray2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 6px;
+  }
+  .mock-card-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .mock-card-text {
+    font-family: var(--font-mono);
+    font-size: 7px;
+    color: var(--gray5);
+    line-height: 1.5;
+  }
+  .mock-folder-row {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+  .mock-folder {
+    background: var(--gray2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 7px;
+    font-size: 7px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .mock-folder.active { border-color: var(--red); color: var(--red); }
+  .mock-btn {
+    width: 24px; height: 24px;
+    background: var(--red);
+    border-radius: 12px;
+    position: absolute;
+    bottom: 12px; right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  /* TECH STACK */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 2px;
+  }
+  .stack-card {
+    background: var(--gray1);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+  .stack-category {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--red);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .stack-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .stack-why {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--gray5);
+    line-height: 1.7;
+  }
+
+  /* DB SCHEMA */
+  .schema-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+  .schema-table th {
+    background: var(--gray2);
+    color: var(--red);
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .schema-table td {
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    color: var(--gray5);
+    vertical-align: top;
+  }
+  .schema-table tr:nth-child(even) td { background: var(--gray1); }
+  .schema-table td:first-child { color: var(--white); font-weight: 700; }
+  .schema-table td:nth-child(2) { color: #7dd3fc; }
+  .badge {
+    display: inline-block;
+    font-size: 7px;
+    padding: 2px 5px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+  .badge-pk { background: var(--red); color: var(--white); }
+  .badge-fk { background: var(--gray3); color: var(--gray5); }
+  .badge-idx { background: #1a2a1a; color: #4ade80; border: 1px solid #2d4a2d; }
+
+  /* FILE TREE */
+  .tree { font-family: var(--font-mono); font-size: 10px; line-height: 2; }
+  .tree-dir { color: var(--white); font-weight: 700; }
+  .tree-file { color: var(--gray5); }
+  .tree-indent1 { padding-left: 16px; }
+  .tree-indent2 { padding-left: 32px; }
+  .tree-indent3 { padding-left: 48px; }
+  .tree-comment { color: var(--gray4); font-style: italic; }
+
+  /* NAVIGATION MAP */
+  .nav-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .nav-node {
+    background: var(--gray1);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    min-width: 120px;
+  }
+  .nav-node.primary { border-color: var(--red); }
+  .nav-node-route {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--red);
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+  .nav-node-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .nav-node-items {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--gray5);
+    line-height: 1.8;
+  }
+
+  /* USER FLOW */
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    background: var(--gray1);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--white);
+    border-radius: 2px;
+  }
+  .flow-arrow {
+    color: var(--red);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  /* SECURITY */
+  .security-block {
+    background: var(--gray1);
+    border-left: 3px solid var(--red);
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    border-radius: 0 4px 4px 0;
+  }
+  .security-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .security-desc {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--gray5);
+    line-height: 1.8;
+  }
+
+  /* MILESTONES */
+  .milestone-row {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2px;
+    flex-wrap: wrap;
+  }
+  .milestone-card {
+    background: var(--gray1);
+    border: 1px solid var(--border);
+    flex: 1;
+    min-width: 120px;
+    padding: 16px;
+  }
+  .milestone-phase {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--red);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .milestone-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .milestone-items {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--gray5);
+    line-height: 1.8;
+  }
+  .milestone-duration {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--gray4);
+    margin-top: 8px;
+  }
+
+  /* HAPTICS TABLE */
+  .haptic-table { width:100%; border-collapse:collapse; }
+  .haptic-table th, .haptic-table td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-align: left;
+  }
+  .haptic-table th { background: var(--gray2); color: var(--red); text-transform: uppercase; letter-spacing: 1px; }
+  .haptic-table td { color: var(--gray5); }
+  .haptic-table td:first-child { color: var(--white); }
+  .haptic-table tr:nth-child(even) td { background: var(--gray1); }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 8px 0;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--gray4);
+    letter-spacing: 2px;
+  }
+  .divider::before, .divider::after { content:''; flex:1; height:1px; background: var(--border); }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  @media(max-width: 560px) {
+    .two-col { grid-template-columns: 1fr; }
+    .cover { padding: 40px 24px 36px; }
+    .section { padding: 32px 24px; }
+    .cover-logo { font-size: 56px; }
+    .icon-section { padding: 32px 24px; }
+  }
+
+  .tag-pill {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--gray5);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin: 2px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .tag-pill.red { color: var(--red); border-color: var(--red); }
+
+  p.prose {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray5);
+    line-height: 1.9;
+    margin-bottom: 12px;
+  }
+
+  h4.sub {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 16px 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">● Product Requirements Document · v1.0 · 2025</div>
+  <div class="cover-logo">Note<span>va</span></div>
+  <div class="cover-sub">Local-First · Brutalist · Gesture-Driven Note App</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><strong>Platform</strong>iOS · Android</div>
+    <div class="cover-meta-item"><strong>Framework</strong>React Native (Expo)</div>
+    <div class="cover-meta-item"><strong>Version</strong>1.0 MVP</div>
+    <div class="cover-meta-item"><strong>Status</strong>Planning Phase</div>
+    <div class="cover-meta-item"><strong>Accent</strong>#FF5252</div>
+  </div>
+</div>
+
+<!-- APP ICON CONCEPT -->
+<div class="icon-section">
+  <div class="icon-wrap">
+    <!-- Primary icon: black bg, red border, bold N lettermark -->
+    <div class="app-icon">
+      <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="5" y="44" font-family="'Syne',sans-serif" font-size="46" font-weight="800" fill="#FF5252">N</text>
+        <circle cx="40" cy="14" r="6" fill="#FF5252" opacity="0.25"/>
+        <circle cx="40" cy="14" r="3" fill="#FF5252"/>
+      </svg>
+    </div>
+    <!-- Alt icon: dark red accent fill -->
+    <div class="app-icon-sm" style="background:#FF5252">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="3" y="32" font-family="'Syne',sans-serif" font-size="32" font-weight="800" fill="#0a0a0a">N</text>
+      </svg>
+    </div>
+    <!-- Alt icon: outline only -->
+    <div class="app-icon-sm" style="background:#0a0a0a; border-color:#FF5252">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="8" width="24" height="24" rx="2" stroke="#FF5252" stroke-width="1.5"/>
+        <line x1="12" y1="15" x2="28" y2="15" stroke="#FF5252" stroke-width="1.5"/>
+        <line x1="12" y1="20" x2="22" y2="20" stroke="#FF5252" stroke-width="1.5"/>
+        <line x1="12" y1="25" x2="25" y2="25" stroke="#FF5252" stroke-width="1.5"/>
+      </svg>
+    </div>
+  </div>
+  <div class="icon-text-block">
+    <h3>App Icon Concept</h3>
+    <p>Primary: Bold "N" lettermark on pitch-black with Accent Red (#FF5252) dot indicator. Communicates premium minimalism. Icon size: 1024×1024px exported. Corner radius follows iOS/Android platform grid (iOS: ~22.5%, Android: adaptive icon).</p>
+    <div style="margin-top:8px">
+      <span class="tag-pill red">Primary</span>
+      <span class="tag-pill">Inverse Alt</span>
+      <span class="tag-pill">Line Art Alt</span>
+    </div>
+  </div>
+</div>
+
+<!-- 1. DESIGN SYSTEM -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title">Design System</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="palette-label">Color Palette</div>
+      <div class="palette-row">
+        <div class="swatch" style="background:#0a0a0a; flex:2; border:1px solid #2a2a2a"><span>BLACK</span></div>
+        <div class="swatch" style="background:#FF5252; flex:2"><span>RED</span></div>
+        <div class="swatch" style="background:#f5f5f5; flex:2; border:1px solid #2a2a2a"><span style="color:#0a0a0a">WHITE</span></div>
+      </div>
+      <div class="palette-row">
+        <div class="swatch" style="background:#141414"><span>#141</span></div>
+        <div class="swatch" style="background:#1e1e1e"><span>#1E</span></div>
+        <div class="swatch" style="background:#2a2a2a"><span>#2A</span></div>
+        <div class="swatch" style="background:#444"><span>#44</span></div>
+        <div class="swatch" style="background:#888"><span>#88</span></div>
+        <div class="swatch" style="background:#cc3d3d"><span>DIM</span></div>
+      </div>
+
+      <div class="divider">TYPOGRAPHY</div>
+
+      <div class="type-block">
+        <div class="type-sample type-h1" style="font-family:'Syne',sans-serif">Noteva App</div>
+        <div class="type-meta">SYNE 800 · HEADINGS · TRACKING -1px</div>
+      </div>
+      <div class="type-block">
+        <div class="type-sample type-h2" style="font-family:'Syne',sans-serif">Note Title Goes Here</div>
+        <div class="type-meta">SYNE 700 · SUBHEADINGS · TRACKING -0.5px</div>
+      </div>
+      <div class="type-block">
+        <div class="type-sample type-mono" style="font-size:11px">2025-01-15 · 3 min read · #work</div>
+        <div class="type-meta">SPACE MONO 400 · METADATA & UI LABELS</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="palette-label">Design Principles</div>
+      <div class="security-block">
+        <div class="security-title">Brutalist Aesthetic</div>
+        <div class="security-desc">Sharp 2px borders. No blurry shadows. Zero or tight (4px) corner radii. Monochromatic base with surgical use of #FF5252. Every element is intentional — no decoration for decoration's sake.</div>
+      </div>
+      <div class="security-block" style="border-color:#444">
+        <div class="security-title">Local-First</div>
+        <div class="security-desc">All data stored on-device via SQLite. No cloud dependency for core features. Works 100% offline. User owns their data. JSON export/import for portability.</div>
+      </div>
+      <div class="security-block" style="border-color:#444">
+        <div class="security-title">Gesture-Driven</div>
+        <div class="security-desc">Long-press reveals quick actions. Swipe-to-delete. Pinch-to-zoom on images. Secret long-press on FAB opens Vault PIN entry. Haptic feedback on every critical action.</div>
+      </div>
+      <div class="security-block" style="border-color:#444">
+        <div class="security-title">60fps Performance</div>
+        <div class="security-desc">FlashList (Shopify) for all heavy lists. Reanimated 3 on the UI thread — zero JS bridge lag. Skeleton loaders for perceived speed. Memo + callback everywhere.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. SCREENS MOCKUP -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title">Screen Inventory</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="screens-row">
+    <!-- Home -->
+    <div class="screen-frame">
+      <div class="screen-notch"><div class="screen-notch-pill"></div></div>
+      <div class="screen-content">
+        <div class="screen-label">/ Home</div>
+        <div class="screen-title" style="font-family:'Syne',sans-serif">Noteva</div>
+        <div class="mock-folder-row">
+          <div class="mock-folder active">All</div>
+          <div class="mock-folder">Work</div>
+          <div class="mock-folder">Personal</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-title">Meeting Notes</div>
+          <div class="mock-bar red" style="height:3px;width:100%;margin-bottom:4px"></div>
+          <div class="mock-card-text">Q4 review discussion with team leads...</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-title">Ideas 💡</div>
+          <div class="mock-card-text">App concept for local-first...</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-title">🔒 Private</div>
+          <div class="mock-card-text">Locked note · tap to unlock</div>
+        </div>
+        <div style="height:32px"></div>
+      </div>
+      <div class="mock-btn">+</div>
+    </div>
+
+    <!-- Editor -->
+    <div class="screen-frame">
+      <div class="screen-notch"><div class="screen-notch-pill"></div></div>
+      <div class="screen-content">
+        <div class="screen-label">/editor/[id]</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span style="font-size:9px;color:#888;font-family:'Space Mono',monospace">← Back</span>
+          <span style="font-size:8px;color:#FF5252;font-family:'Space Mono',monospace;border:1px solid #FF5252;padding:2px 6px">SAVE</span>
+        </div>
+        <div class="mock-bar red" style="height:2px;margin-bottom:10px;border-radius:0"></div>
+        <div style="font-size:14px;font-weight:800;font-family:'Syne',sans-serif;color:#f5f5f5;margin-bottom:8px">Note Title</div>
+        <div class="mock-bar w80"></div>
+        <div class="mock-bar w60"></div>
+        <div class="mock-bar w80"></div>
+        <div class="mock-bar w40"></div>
+        <div style="background:#1e1e1e;border:1px solid #2a2a2a;border-radius:4px;height:50px;margin-top:10px;display:flex;align-items:center;justify-content:center">
+          <span style="font-size:7px;font-family:'Space Mono',monospace;color:#444">📷 TAP TO ADD IMAGE</span>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:10px">
+          <span style="font-size:8px;font-weight:700;font-family:'Space Mono',monospace;color:#888;border:1px solid #2a2a2a;padding:2px 5px">B</span>
+          <span style="font-style:italic;font-size:8px;font-family:'Space Mono',monospace;color:#888;border:1px solid #2a2a2a;padding:2px 5px">I</span>
+          <span style="font-size:8px;font-family:'Space Mono',monospace;color:#888;border:1px solid #2a2a2a;padding:2px 5px">≡</span>
+          <span style="font-size:8px;font-family:'Space Mono',monospace;color:#888;border:1px solid #2a2a2a;padding:2px 5px">"</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Folder View -->
+    <div class="screen-frame">
+      <div class="screen-notch"><div class="screen-notch-pill"></div></div>
+      <div class="screen-content">
+        <div class="screen-label">/folder/[id]</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:20px;height:20px;background:#FF5252;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px">📁</div>
+          <div style="font-size:13px;font-weight:700;font-family:'Syne',sans-serif">Work</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-title">Project Alpha</div>
+          <div class="mock-card-text">Sprint planning notes · Jan 15</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-title">Client Brief</div>
+          <div class="mock-card-text">Requirements doc · Jan 12</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-title">Weekly Report</div>
+          <div class="mock-card-text">Auto-saved · Jan 10</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="screen-frame">
+      <div class="screen-notch"><div class="screen-notch-pill"></div></div>
+      <div class="screen-content">
+        <div class="screen-label">/settings</div>
+        <div style="font-size:13px;font-weight:700;font-family:'Syne',sans-serif;margin-bottom:12px">Settings</div>
+        <div style="border:1px solid #2a2a2a;border-radius:4px;overflow:hidden;margin-bottom:8px">
+          <div style="padding:7px 10px;border-bottom:1px solid #2a2a2a;display:flex;justify-content:space-between">
+            <span style="font-size:8px;font-family:'Space Mono',monospace;color:#f5f5f5">Dark Mode</span>
+            <span style="font-size:8px;font-family:'Space Mono',monospace;color:#FF5252">ON</span>
+          </div>
+          <div style="padding:7px 10px;border-bottom:1px solid #2a2a2a;display:flex;justify-content:space-between">
+            <span style="font-size:8px;font-family:'Space Mono',monospace;color:#f5f5f5">Font Size</span>
+            <span style="font-size:8px;font-family:'Space Mono',monospace;color:#888">Medium</span>
+          </div>
+          <div style="padding:7px 10px;border-bottom:1px solid #2a2a2a;display:flex;justify-content:space-between">
+            <span style="font-size:8px;font-family:'Space Mono',monospace;color:#f5f5f5">PIN Lock</span>
+            <span style="font-size:8px;font-family:'Space Mono',monospace;color:#FF5252">SET</span>
+          </div>
+          <div style="padding:7px 10px">
+            <span style="font-size:8px;font-family:'Space Mono',monospace;color:#f5f5f5">Backup & Restore</span>
+          </div>
+        </div>
+        <div style="background:#FF5252;border-radius:2px;padding:6px 10px;text-align:center">
+          <span style="font-size:8px;font-weight:700;font-family:'Space Mono',monospace;color:#0a0a0a">EXPORT JSON</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PIN Vault -->
+    <div class="screen-frame">
+      <div class="screen-notch"><div class="screen-notch-pill"></div></div>
+      <div class="screen-content">
+        <div class="screen-label">/vault</div>
+        <div style="text-align:center;padding:10px 0">
+          <div style="font-size:20px;margin-bottom:6px">🔒</div>
+          <div style="font-size:11px;font-weight:700;font-family:'Syne',sans-serif;margin-bottom:4px">Private Vault</div>
+          <div style="font-family:'Space Mono',monospace;font-size:7px;color:#888;margin-bottom:14px">Enter 4-digit PIN</div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-bottom:14px">
+            <div style="width:10px;height:10px;background:#FF5252;border-radius:5px"></div>
+            <div style="width:10px;height:10px;background:#FF5252;border-radius:5px"></div>
+            <div style="width:10px;height:10px;background:#2a2a2a;border-radius:5px;border:1px solid #444"></div>
+            <div style="width:10px;height:10px;background:#2a2a2a;border-radius:5px;border:1px solid #444"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px">
+            <div style="background:#1e1e1e;border:1px solid #2a2a2a;border-radius:2px;padding:5px;text-align:center;font-size:10px;font-weight:700">1</div>
+            <div style="background:#1e1e1e;border:1px solid #2a2a2a;border-radius:2px;padding:5px;text-align:center;font-size:10px;font-weight:700">2</div>
+            <div style="background:#1e1e1e;border:1px solid #2a2a2a;border-radius:2px;padding:5px;text-align:center;font-size:10px;font-weight:700">3</div>
+            <div style="background:#1e1e1e;border:1px solid #2a2a2a;border-radius:2px;padding:5px;text-align:center;font-size:10px;font-weight:700">4</div>
+            <div style="background:#1e1e1e;border:1px solid #2a2a2a;border-radius:2px;padding:5px;text-align:center;font-size:10px;font-weight:700">5</div>
+            <div style="background:#1e1e1e;border:1px solid #2a2a2a;border-radius:2px;padding:5px;text-align:center;font-size:10px;font-weight:700">6</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. CORE FEATURES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title">Core Features</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📝</div>
+      <div class="feature-title">Rich Text Editor</div>
+      <div class="feature-desc">Bold, Italic, Blockquotes, Ordered/Unordered Lists, Checklists. Auto-save every 5 seconds. "Done" button triggers instant SQLite write + haptic.</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📁</div>
+      <div class="feature-title">Folder System</div>
+      <div class="feature-desc">Create/Edit/Delete folders. Custom pixel-art icons (10 presets). Custom color per folder. Horizontal scroll on Home screen. Folder-filtered note list.</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">Private Vault</div>
+      <div class="feature-desc">Secret long-press on FAB (800ms) triggers PIN modal. Notes marked isLocked hidden from main list. PIN stored in expo-secure-store. Biometric unlock optional.</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🖼️</div>
+      <div class="feature-title">Image System</div>
+      <div class="feature-desc">Multiple images per note. Pinch-to-zoom resize in editor. Drag-handle repositioning. Full-screen preview with shared element transition. Stored in local FS.</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⏰</div>
+      <div class="feature-title">Reminders</div>
+      <div class="feature-desc">Set "Notification" or "Alarm"-style reminders per note. expo-notifications integration. Supports one-time and repeating triggers. Displayed in note card.</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔍</div>
+      <div class="feature-title">Search & Tags</div>
+      <div class="feature-desc">Global full-text search across all notes. Tag-based filtering. Tags stored as JSON array in DB. Search indexed on title + content. Live results as user types.</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💾</div>
+      <div class="feature-title">Backup & Restore</div>
+      <div class="feature-desc">Export all notes, folders, settings as JSON to local file system or share sheet. Import from JSON to restore. Version-tagged backup files. One-tap flow.</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎨</div>
+      <div class="feature-title">Note Colors</div>
+      <div class="feature-desc">Each note can have an accent color (6 presets + custom). Color shown as left border stripe in list/grid view. Helps quick visual identification.</div>
+      <div class="feature-tag">V2</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📌</div>
+      <div class="feature-title">Pin & Quick Actions</div>
+      <div class="feature-desc">Long-press note card to reveal: Pin to top, Delete, Lock/Unlock, Copy, Move to folder. Haptic on long-press trigger. Bottom sheet action menu.</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🗂️</div>
+      <div class="feature-title">Grid / List Toggle</div>
+      <div class="feature-desc">Home screen toggle between Bento Grid (2-col) and List view. Preference persisted. FlashList renders both. Smooth animated transition between modes.</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌙</div>
+      <div class="feature-title">Theme System</div>
+      <div class="feature-desc">Light/Dark/System-follow theme. Pure black (#000) dark mode — not grey. Instant theme switch with no flash. All colors from design token map.</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📳</div>
+      <div class="feature-title">Haptics</div>
+      <div class="feature-desc">expo-haptics on: Save (impactMedium), Delete (notificationError), Lock (impactHeavy), Long-press (impactLight), Reminder set (notificationSuccess).</div>
+      <div class="feature-tag">MVP</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. DATABASE SCHEMA -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title">Database Schema (SQLite)</div>
+    <div class="section-line"></div>
+  </div>
+
+  <h4 class="sub">Table: notes</h4>
+  <div style="overflow-x:auto;margin-bottom:20px">
+    <table class="schema-table">
+      <tr><th>Column</th><th>Type</th><th>Constraints</th><th>Description</th></tr>
+      <tr><td>id<span class="badge badge-pk">PK</span></td><td>TEXT</td><td>NOT NULL</td><td>UUID v4 generated on create</td></tr>
+      <tr><td>title</td><td>TEXT</td><td>NOT NULL, DEFAULT ''</td><td>Note headline, max 255 chars</td></tr>
+      <tr><td>content</td><td>TEXT</td><td></td><td>Rich text HTML string (from editor)</td></tr>
+      <tr><td>images_json</td><td>TEXT</td><td></td><td>JSON array of local file URIs</td></tr>
+      <tr><td>tags_json</td><td>TEXT</td><td></td><td>JSON array of tag strings</td></tr>
+      <tr><td>color</td><td>TEXT</td><td>DEFAULT '#FF5252'</td><td>Hex accent color for note card</td></tr>
+      <tr><td>is_locked<span class="badge badge-idx">IDX</span></td><td>INTEGER</td><td>DEFAULT 0</td><td>0=public, 1=vault-locked</td></tr>
+      <tr><td>is_pinned</td><td>INTEGER</td><td>DEFAULT 0</td><td>Pinned notes float to top</td></tr>
+      <tr><td>reminder_at</td><td>INTEGER</td><td></td><td>Unix timestamp for reminder</td></tr>
+      <tr><td>reminder_type</td><td>TEXT</td><td></td><td>'notification' | 'alarm'</td></tr>
+      <tr><td>folder_id<span class="badge badge-fk">FK</span></td><td>TEXT</td><td>REFERENCES folders(id)</td><td>Null = uncategorized</td></tr>
+      <tr><td>created_at</td><td>INTEGER</td><td>NOT NULL</td><td>Unix timestamp</td></tr>
+      <tr><td>updated_at<span class="badge badge-idx">IDX</span></td><td>INTEGER</td><td>NOT NULL</td><td>Sorted by this for recency</td></tr>
+    </table>
+  </div>
+
+  <h4 class="sub">Table: folders</h4>
+  <div style="overflow-x:auto;margin-bottom:20px">
+    <table class="schema-table">
+      <tr><th>Column</th><th>Type</th><th>Constraints</th><th>Description</th></tr>
+      <tr><td>id<span class="badge badge-pk">PK</span></td><td>TEXT</td><td>NOT NULL</td><td>UUID v4</td></tr>
+      <tr><td>name</td><td>TEXT</td><td>NOT NULL</td><td>Display name, max 40 chars</td></tr>
+      <tr><td>icon</td><td>TEXT</td><td>DEFAULT '📁'</td><td>Emoji or pixel-art preset key</td></tr>
+      <tr><td>color</td><td>TEXT</td><td>DEFAULT '#FF5252'</td><td>Theme color for folder chip</td></tr>
+      <tr><td>sort_order</td><td>INTEGER</td><td>DEFAULT 0</td><td>Drag-to-reorder position</td></tr>
+      <tr><td>created_at</td><td>INTEGER</td><td>NOT NULL</td><td>Unix timestamp</td></tr>
+    </table>
+  </div>
+
+  <h4 class="sub">Table: settings (key-value)</h4>
+  <div style="overflow-x:auto">
+    <table class="schema-table">
+      <tr><th>Column</th><th>Type</th><th>Description</th></tr>
+      <tr><td>key<span class="badge badge-pk">PK</span></td><td>TEXT</td><td>theme, font_size, grid_mode, etc.</td></tr>
+      <tr><td>value</td><td>TEXT</td><td>Serialized value string</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 5. TECH STACK -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title">Technical Stack</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="stack-grid">
+    <div class="stack-card">
+      <div class="stack-category">Framework</div>
+      <div class="stack-name">React Native + Expo SDK 51+</div>
+      <div class="stack-why">Cross-platform iOS/Android. Expo managed workflow for fast iteration. EAS Build for distribution.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Navigation</div>
+      <div class="stack-name">Expo Router v3</div>
+      <div class="stack-why">File-based routing. Deep linking out of the box. Typed routes. Stack + Modal navigators.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Database</div>
+      <div class="stack-name">Expo SQLite (expo-sqlite)</div>
+      <div class="stack-why">Local-first persistence. Synchronous reads for lists. Async writes. Indexed queries for search.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">State</div>
+      <div class="stack-name">Zustand</div>
+      <div class="stack-why">Minimal boilerplate. No provider needed. Slices: noteStore, folderStore, settingsStore, vaultStore.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Animations</div>
+      <div class="stack-name">Reanimated 3 + Moti</div>
+      <div class="stack-why">UI thread animations = no JS bridge jank. Moti for declarative transitions. Gesture Handler for swipe/pinch.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Lists</div>
+      <div class="stack-name">FlashList (Shopify)</div>
+      <div class="stack-why">10x faster than FlatList for large note lists. Recycled views. Stable 60fps on mid-range devices.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Rich Text</div>
+      <div class="stack-name">react-native-pell-rich-editor</div>
+      <div class="stack-why">WebView-based, proven stable. Supports Bold, Italic, Lists, Blockquote, Checklist. Custom toolbar.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Icons</div>
+      <div class="stack-name">Lucide React Native</div>
+      <div class="stack-why">Consistent 24px stroke icons. Tree-shakeable. Used for all UI chrome, toolbar buttons, settings.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Haptics</div>
+      <div class="stack-name">expo-haptics</div>
+      <div class="stack-why">Native haptic engine on iOS + Android. Impact, Notification, Selection feedback types.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Notifications</div>
+      <div class="stack-name">expo-notifications</div>
+      <div class="stack-why">Local notifications + alarms. Works on both platforms. Permission request at first reminder set.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Security</div>
+      <div class="stack-name">expo-secure-store</div>
+      <div class="stack-why">Keychain (iOS) / Keystore (Android) for PIN hash storage. Never stored in SQLite plain-text.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Images</div>
+      <div class="stack-name">expo-image-picker + expo-file-system</div>
+      <div class="stack-why">Camera & gallery access. Images copied to app's document directory for persistence across sessions.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. FILE STRUCTURE -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title">Project Structure</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="tree">
+        <div class="tree-dir">NotevaApp/</div>
+        <div class="tree-indent1 tree-dir">├── app/ <span class="tree-comment">(Expo Router)</span></div>
+        <div class="tree-indent2 tree-file">├── (tabs)/</div>
+        <div class="tree-indent3 tree-file">├── index.tsx <span class="tree-comment">Home</span></div>
+        <div class="tree-indent3 tree-file">└── settings.tsx</div>
+        <div class="tree-indent2 tree-file">├── editor/[id].tsx</div>
+        <div class="tree-indent2 tree-file">├── folder/[id].tsx</div>
+        <div class="tree-indent2 tree-file">├── vault.tsx <span class="tree-comment">PIN screen</span></div>
+        <div class="tree-indent2 tree-file">└── _layout.tsx</div>
+        <div class="tree-indent1 tree-dir">├── src/</div>
+        <div class="tree-indent2 tree-dir">├── components/</div>
+        <div class="tree-indent3 tree-file">├── ui/ <span class="tree-comment">Button, Input, Modal</span></div>
+        <div class="tree-indent3 tree-file">├── editor/ <span class="tree-comment">RichText, ImageLayer</span></div>
+        <div class="tree-indent3 tree-file">├── notes/ <span class="tree-comment">NoteCard, NoteGrid</span></div>
+        <div class="tree-indent3 tree-file">└── shared/ <span class="tree-comment">Toast, BottomSheet</span></div>
+        <div class="tree-indent2 tree-dir">├── database/</div>
+        <div class="tree-indent3 tree-file">├── schema.ts</div>
+        <div class="tree-indent3 tree-file">├── queries.ts</div>
+        <div class="tree-indent3 tree-file">└── migrations.ts</div>
+        <div class="tree-indent2 tree-dir">├── store/</div>
+        <div class="tree-indent3 tree-file">├── noteStore.ts</div>
+        <div class="tree-indent3 tree-file">├── folderStore.ts</div>
+        <div class="tree-indent3 tree-file">├── settingsStore.ts</div>
+        <div class="tree-indent3 tree-file">└── vaultStore.ts</div>
+        <div class="tree-indent2 tree-dir">├── hooks/</div>
+        <div class="tree-indent3 tree-file">├── useNotes.ts</div>
+        <div class="tree-indent3 tree-file">├── useVault.ts</div>
+        <div class="tree-indent3 tree-file">└── useReminders.ts</div>
+        <div class="tree-indent2 tree-dir">├── utils/</div>
+        <div class="tree-indent3 tree-file">├── backup.ts</div>
+        <div class="tree-indent3 tree-file">├── crypto.ts <span class="tree-comment">PIN hash</span></div>
+        <div class="tree-indent3 tree-file">└── date.ts</div>
+        <div class="tree-indent2 tree-dir">└── constants/</div>
+        <div class="tree-indent3 tree-file">├── colors.ts</div>
+        <div class="tree-indent3 tree-file">└── icons.ts</div>
+        <div class="tree-indent1 tree-file">├── assets/</div>
+        <div class="tree-indent2 tree-file">├── fonts/ <span class="tree-comment">Syne, Space Mono</span></div>
+        <div class="tree-indent2 tree-file">└── icons/ <span class="tree-comment">pixel art set</span></div>
+        <div class="tree-indent1 tree-file">├── app.json</div>
+        <div class="tree-indent1 tree-file">└── package.json</div>
+      </div>
+    </div>
+
+    <div>
+      <h4 class="sub">State Architecture (Zustand)</h4>
+      <div class="security-block" style="margin-bottom:8px">
+        <div class="security-title">noteStore</div>
+        <div class="security-desc">notes[], selectedNote, isLoading, searchQuery, filterFolderId, viewMode (grid/list). Actions: loadNotes, createNote, updateNote, deleteNote, togglePin, toggleLock.</div>
+      </div>
+      <div class="security-block" style="margin-bottom:8px;border-color:#444">
+        <div class="security-title">folderStore</div>
+        <div class="security-desc">folders[], activeFolderId. Actions: createFolder, updateFolder, deleteFolder, reorderFolders.</div>
+      </div>
+      <div class="security-block" style="margin-bottom:8px;border-color:#444">
+        <div class="security-title">vaultStore</div>
+        <div class="security-desc">isUnlocked, pinHash. Actions: unlockVault, lockVault, setPin, verifyPin. PIN stored in expo-secure-store as SHA-256 hash.</div>
+      </div>
+      <div class="security-block" style="border-color:#444">
+        <div class="security-title">settingsStore</div>
+        <div class="security-desc">theme, fontSize, gridMode, hapticEnabled. Persisted to SQLite settings table on every change.</div>
+      </div>
+
+      <h4 class="sub" style="margin-top:20px">Navigation Routes</h4>
+      <div class="nav-flow">
+        <div class="nav-node primary">
+          <div class="nav-node-route">/</div>
+          <div class="nav-node-name">Home</div>
+          <div class="nav-node-items">Folder bar<br>Grid/List toggle<br>Note cards<br>FAB (+)</div>
+        </div>
+        <div class="nav-node">
+          <div class="nav-node-route">/editor/[id]</div>
+          <div class="nav-node-name">Editor</div>
+          <div class="nav-node-items">Rich text<br>Images<br>Tags, Color<br>Reminder</div>
+        </div>
+        <div class="nav-node">
+          <div class="nav-node-route">/folder/[id]</div>
+          <div class="nav-node-name">Folder</div>
+          <div class="nav-node-items">Filtered notes<br>Folder meta<br>Sort controls</div>
+        </div>
+        <div class="nav-node">
+          <div class="nav-node-route">/vault</div>
+          <div class="nav-node-name">Vault</div>
+          <div class="nav-node-items">PIN entry<br>Locked notes<br>Biometric</div>
+        </div>
+        <div class="nav-node">
+          <div class="nav-node-route">/settings</div>
+          <div class="nav-node-name">Settings</div>
+          <div class="nav-node-items">Theme, Font<br>PIN setup<br>Backup/Restore</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7. USER FLOWS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <div class="section-title">User Flows</div>
+    <div class="section-line"></div>
+  </div>
+
+  <h4 class="sub">Create Note Flow</h4>
+  <div class="flow-row">
+    <div class="flow-step">Home Screen</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Tap + FAB</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Editor opens (new)</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Write content</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Auto-save (5s)</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Tap "Done" → Haptic + SQLite write</div>
+  </div>
+
+  <h4 class="sub">Secret Vault Flow</h4>
+  <div class="flow-row">
+    <div class="flow-step">Home Screen</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Long-press + FAB (800ms)</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Heavy haptic</div><div class="flow-arrow">→</div>
+    <div class="flow-step">PIN modal slides up</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Enter 4-digit PIN</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Vault unlocked → Locked notes visible</div>
+  </div>
+
+  <h4 class="sub">Set Reminder Flow</h4>
+  <div class="flow-row">
+    <div class="flow-step">Editor Screen</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Tap ⏰ icon</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Date/time picker</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Select type (notif/alarm)</div><div class="flow-arrow">→</div>
+    <div class="flow-step">expo-notifications scheduled</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Success haptic</div>
+  </div>
+
+  <h4 class="sub">Backup Flow</h4>
+  <div class="flow-row">
+    <div class="flow-step">Settings</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Tap "Export JSON"</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Serialize all tables</div><div class="flow-arrow">→</div>
+    <div class="flow-step">noteva-backup-[date].json</div><div class="flow-arrow">→</div>
+    <div class="flow-step">Share sheet opens</div>
+  </div>
+</div>
+
+<!-- 8. HAPTICS SPEC -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <div class="section-title">Haptics Specification</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div style="overflow-x:auto">
+    <table class="haptic-table">
+      <tr><th>User Action</th><th>Haptic Type</th><th>expo-haptics Call</th><th>Timing</th></tr>
+      <tr><td>Save note (Done button)</td><td>Medium impact</td><td>impactAsync(Medium)</td><td>On SQLite write confirm</td></tr>
+      <tr><td>Delete note</td><td>Error notification</td><td>notificationAsync(Error)</td><td>After confirm dialog</td></tr>
+      <tr><td>Lock / Unlock note</td><td>Heavy impact</td><td>impactAsync(Heavy)</td><td>On state change</td></tr>
+      <tr><td>Long-press note card</td><td>Light impact</td><td>impactAsync(Light)</td><td>At 500ms threshold</td></tr>
+      <tr><td>Secret FAB long-press</td><td>Heavy impact</td><td>impactAsync(Heavy)</td><td>At 800ms threshold</td></tr>
+      <tr><td>PIN entry: wrong PIN</td><td>Error notification</td><td>notificationAsync(Error)</td><td>Immediate</td></tr>
+      <tr><td>PIN entry: correct PIN</td><td>Success notification</td><td>notificationAsync(Success)</td><td>Immediate</td></tr>
+      <tr><td>Reminder set</td><td>Success notification</td><td>notificationAsync(Success)</td><td>On schedule confirm</td></tr>
+      <tr><td>Folder created</td><td>Medium impact</td><td>impactAsync(Medium)</td><td>On save</td></tr>
+      <tr><td>Grid/List toggle</td><td>Selection</td><td>selectionAsync()</td><td>Immediate</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 9. MILESTONES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">09</div>
+    <div class="section-title">Development Milestones</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="milestone-row">
+    <div class="milestone-card">
+      <div class="milestone-phase">Phase 1</div>
+      <div class="milestone-name">Foundation</div>
+      <div class="milestone-items">
+        ✦ Expo project setup<br>
+        ✦ SQLite schema + migrations<br>
+        ✦ Zustand stores<br>
+        ✦ Expo Router navigation<br>
+        ✦ Design tokens / theme
+      </div>
+      <div class="milestone-duration">⏱ Week 1–2</div>
+    </div>
+    <div class="milestone-card">
+      <div class="milestone-phase">Phase 2</div>
+      <div class="milestone-name">Core UI</div>
+      <div class="milestone-items">
+        ✦ Home screen (grid/list)<br>
+        ✦ Folder system + chips<br>
+        ✦ Note cards + FlashList<br>
+        ✦ FAB + long-press gesture<br>
+        ✦ Haptics integration
+      </div>
+      <div class="milestone-duration">⏱ Week 3–4</div>
+    </div>
+    <div class="milestone-card">
+      <div class="milestone-phase">Phase 3</div>
+      <div class="milestone-name">Editor</div>
+      <div class="milestone-items">
+        ✦ Rich text editor<br>
+        ✦ Image picker + display<br>
+        ✦ Pinch-to-zoom resize<br>
+        ✦ Auto-save + Done button<br>
+        ✦ Tag input
+      </div>
+      <div class="milestone-duration">⏱ Week 5–6</div>
+    </div>
+    <div class="milestone-card">
+      <div class="milestone-phase">Phase 4</div>
+      <div class="milestone-name">Vault + Security</div>
+      <div class="milestone-items">
+        ✦ PIN entry modal<br>
+        ✦ expo-secure-store PIN hash<br>
+        ✦ Locked note filtering<br>
+        ✦ Biometric unlock (optional)<br>
+        ✦ Vault unlock flow
+      </div>
+      <div class="milestone-duration">⏱ Week 7</div>
+    </div>
+    <div class="milestone-card">
+      <div class="milestone-phase">Phase 5</div>
+      <div class="milestone-name">Reminders + Settings</div>
+      <div class="milestone-items">
+        ✦ expo-notifications setup<br>
+        ✦ Reminder picker UI<br>
+        ✦ Settings screen<br>
+        ✦ Theme toggle<br>
+        ✦ JSON backup/restore
+      </div>
+      <div class="milestone-duration">⏱ Week 8</div>
+    </div>
+    <div class="milestone-card">
+      <div class="milestone-phase">Phase 6</div>
+      <div class="milestone-name">Polish + Launch</div>
+      <div class="milestone-items">
+        ✦ Animations & transitions<br>
+        ✦ Responsive (SE → iPad)<br>
+        ✦ Performance profiling<br>
+        ✦ EAS Build + TestFlight<br>
+        ✦ App Store / Play Store
+      </div>
+      <div class="milestone-duration">⏱ Week 9–10</div>
+    </div>
+  </div>
+</div>
+
+<!-- 10. MASTER PROMPT -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <div class="section-title">AI Master Prompt (Copy & Use)</div>
+    <div class="section-line"></div>
+  </div>
+
+  <p class="prose">নিচের প্রম্পটটি কপি করে যেকোনো AI (Claude, ChatGPT, Gemini) তে দিলে সরাসরি কোড পাবেন:</p>
+
+  <div style="background:#0a0a0a;border:1px solid #FF5252;border-radius:4px;padding:20px;font-family:'Space Mono',monospace;font-size:9px;color:#888;line-height:1.9;position:relative">
+    <div style="position:absolute;top:8px;right:12px;font-size:8px;color:#FF5252;letter-spacing:2px">MASTER PROMPT</div>
+    <span style="color:#FF5252">You are building "Noteva"</span>, a production-ready React Native Expo app.<br><br>
+    <span style="color:#f5f5f5">AESTHETIC:</span> High-contrast Brutalist. #FF5252 accent. Pure black bg. Space Mono for metadata, Syne for headings. Sharp 2px borders, no soft shadows, rx=4 max.<br><br>
+    <span style="color:#f5f5f5">STACK:</span> Expo SDK 51 + Expo Router v3 (file-based nav) + Expo SQLite (local DB) + Zustand (state) + Reanimated 3 + FlashList + lucide-react-native + expo-haptics + expo-notifications + expo-secure-store.<br><br>
+    <span style="color:#f5f5f5">DB SCHEMA:</span> notes(id UUID PK, title TEXT, content TEXT, images_json TEXT, tags_json TEXT, color TEXT, is_locked INT, is_pinned INT, reminder_at INT, reminder_type TEXT, folder_id FK, created_at INT, updated_at INT). folders(id, name, icon, color, sort_order, created_at). settings(key PK, value).<br><br>
+    <span style="color:#f5f5f5">FEATURES:</span><br>
+    1. Home: FlashList notes in 2-col bento grid + list toggle. Horizontal folder bar. Long-press card = bottom sheet (Pin/Delete/Lock/Move). FAB (+). Long-press FAB (800ms) = PIN modal for Vault.<br>
+    2. Editor: react-native-pell-rich-editor. Bold/Italic/List/Quote toolbar. Multi-image support with pinch-to-zoom. Auto-save 5s + blur. "Done" button → SQLite write → impactAsync(Medium).<br>
+    3. Vault: isLocked notes hidden from main list. PIN entry modal (4-digit). PIN stored as SHA-256 in expo-secure-store. notificationAsync(Error) on wrong PIN.<br>
+    4. Reminders: expo-notifications local triggers. 'notification' or 'alarm' type per note. Permission request on first use.<br>
+    5. Settings: Light/Dark theme. Font size (S/M/L). JSON backup/restore. PIN setup/change.<br>
+    6. Haptics: ALL save/delete/lock/pin actions have expo-haptics feedback. See haptics spec.<br><br>
+    <span style="color:#f5f5f5">START WITH:</span> Step 1 — SQLite schema file (database/schema.ts). Step 2 — Zustand stores. Step 3 — Home screen UI with folder bar + FlashList note grid in Brutalist style.
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="padding:24px 48px;border-top:2px solid var(--red);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--black)">
+  <div style="font-family:var(--font-mono);font-size:9px;color:var(--gray4);letter-spacing:2px">NOTEVA PRD v1.0 · CONFIDENTIAL</div>
+  <div style="font-family:var(--font-mono);font-size:9px;color:var(--red);letter-spacing:1px">LOCAL-FIRST · BRUTALIST · GESTURE-DRIVEN</div>
+  <div style="font-family:var(--font-mono);font-size:9px;color:var(--gray4)">© 2025 Noteva</div>
+</div>
+
+</body>
+</html>
